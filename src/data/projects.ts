@@ -65,6 +65,7 @@ export const projects: Project[] = [
   {
     slug: 'king-of-paddock',
     title: 'King Of Paddock',
+    image: '/screenshots/king-of-paddock-card.webp',
     tagline: 'Application de Fantasy F1 avec système de championnats entre amis, ligue communautaire et scoring automatisé.',
     shortDescription:
       'Produit fantasy F1 lancé avec une vraie base utilisateurs, construit avec une agence puis repris avec un freelance pour continuer les évolutions.',
@@ -101,6 +102,7 @@ export const projects: Project[] = [
   {
     slug: 'jcc-football',
     title: 'JCC Football',
+    image: '/screenshots/jcc-football-card.webp',
     tagline: 'Création d’un jeu de type cartes à collectionner et Fantasy football. Système de pack opening, ligue communautaire et data avancée.',
     shortDescription:
       'Side project construit pour explorer une app fantasy football avec cartes, packs, collection, équipes et interface admin.',
@@ -134,8 +136,9 @@ export const projects: Project[] = [
   },
     {
     slug: 'site-web-king-of-paddock',
-    title: 'Site web KOP',
-    tagline: 'Site internet pour l’application King Of Paddock. Travail sur le référencement (SEO), page news d’informations F1.',
+    title: 'Website KOP',
+    image: '/screenshots/king-of-paddock-site-card.webp',
+    tagline: 'Site internet de l’application King Of Paddock. Travail sur le référencement (SEO), page news d’informations F1.',
     shortDescription:
       '',
     year: '2026',
