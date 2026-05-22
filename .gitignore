@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+
+# Next.js
+.next/
+.next-dev/
+out/
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# local env
+.env
+.env.*
+
+# local tooling / generated captures
+.claude/
+portfolio-home.png
+portfolio-mobile.png
+
+# raw generated image drafts kept locally
+ChatGPT Image *.png
+image.png
