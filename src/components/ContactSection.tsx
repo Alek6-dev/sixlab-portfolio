@@ -8,8 +8,23 @@ type ContactHint =
   | 'Envoyer un message'
   | 'Me contacter sur LinkedIn'
   | 'Voir mes projets'
-  | 'Réserver un créneau'
+  | 'Reserver un creneau'
   | null
+
+type ContactSectionVariant = 'home' | 'project'
+
+const contactCopy = {
+  home: {
+    title: 'Un projet a faire avancer ?',
+    text:
+      'Idee naissante, besoin a cadrer, produit a tester ou workflow a structurer : lancez la discussion en me decrivant votre projet en quelques lignes.',
+  },
+  project: {
+    title: 'Un projet similaire a faire avancer ?',
+    text:
+      'Produit a construire, parcours a tester, workflow a structurer : quelques lignes suffisent pour lancer la discussion.',
+  },
+}
 
 const contactButtonBaseClassName =
   'flex h-20 w-20 items-center justify-center rounded-lg border transition-colors focus-visible:outline-none focus-visible:ring-2'
@@ -17,97 +32,91 @@ const contactButtonBaseClassName =
 const contactButtonNeutralClassName =
   `${contactButtonBaseClassName} border-line bg-canvas/35 text-copy-muted hover:border-brand-300/70 hover:text-brand-200 focus-visible:ring-brand-200/50`
 
-export default function ContactSection() {
+export default function ContactSection({ variant = 'home' }: { variant?: ContactSectionVariant }) {
   const [contactHint, setContactHint] = useState<ContactHint>(null)
+  const copy = contactCopy[variant]
 
   return (
-    <>
-      <article className="overflow-hidden rounded-lg border border-line bg-panel/70">
-        <div className="p-6 md:p-7">
-          <div className="grid gap-8 lg:grid-cols-[0.95fr_1fr] lg:items-center lg:gap-10">
-            <div className="max-w-xl">
-              <h2 className="text-2xl font-semibold tracking-tight text-copy">
-                Un projet à faire avancer ?
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-copy-muted">
-                Idée naissante, besoin à cadrer, produit à tester ou workflow à structurer :
-                lancez la discussion en me décrivant votre projet en quelques lignes.
-              </p>
-            </div>
+    <article className="overflow-hidden rounded-lg border border-line bg-panel/70">
+      <div className="p-6 md:p-7">
+        <div className="grid gap-8 lg:grid-cols-[0.95fr_1fr] lg:items-center lg:gap-10">
+          <div className="max-w-xl">
+            <h2 className="text-2xl font-semibold tracking-tight text-copy">{copy.title}</h2>
+            <p className="mt-3 text-sm leading-relaxed text-copy-muted">{copy.text}</p>
+          </div>
 
-            <div className="lg:ml-auto">
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 lg:justify-end">
-                <button
-                  type="button"
-                  onClick={openContactChat}
-                  onMouseEnter={() => setContactHint('Envoyer un message')}
-                  onMouseLeave={() => setContactHint(null)}
-                  onFocus={() => setContactHint('Envoyer un message')}
-                  onBlur={() => setContactHint(null)}
-                  aria-label="Envoyer un message"
-                  className={`${contactButtonBaseClassName} border-line bg-canvas/35 text-copy-muted hover:border-brand-300/70 hover:text-brand-200 focus-visible:ring-brand-200/50`}
-                >
-                  <MessageCircleMore size={34} strokeWidth={1.8} />
-                </button>
-
-                <a
-                  href="https://linkedin.com/in/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onMouseEnter={() => setContactHint('Me contacter sur LinkedIn')}
-                  onMouseLeave={() => setContactHint(null)}
-                  onFocus={() => setContactHint('Me contacter sur LinkedIn')}
-                  onBlur={() => setContactHint(null)}
-                  aria-label="LinkedIn"
-                  className={contactButtonNeutralClassName}
-                >
-                  <LinkedInIcon className="h-8 w-8" />
-                </a>
-
-                <a
-                  href="https://github.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onMouseEnter={() => setContactHint('Voir mes projets')}
-                  onMouseLeave={() => setContactHint(null)}
-                  onFocus={() => setContactHint('Voir mes projets')}
-                  onBlur={() => setContactHint(null)}
-                  aria-label="GitHub"
-                  className={contactButtonNeutralClassName}
-                >
-                  <GitHubIcon className="h-8 w-8" />
-                </a>
-
-                <button
-                  type="button"
-                  aria-disabled="true"
-                  onMouseEnter={() => setContactHint('Réserver un créneau')}
-                  onMouseLeave={() => setContactHint(null)}
-                  onFocus={() => setContactHint('Réserver un créneau')}
-                  onBlur={() => setContactHint(null)}
-                  aria-label="Réserver un créneau bientôt disponible"
-                  className={`${contactButtonBaseClassName} relative cursor-not-allowed border-line bg-canvas/20 text-copy-faint/55 hover:border-brand-300/40 hover:text-brand-200/65 focus-visible:ring-brand-200/30`}
-                >
-                  <CalendarClock size={34} strokeWidth={1.8} />
-                  <span className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 rounded-full border border-line bg-panel px-2 py-0.5 text-[10px] font-medium text-copy-faint">
-                    bientôt
-                  </span>
-                </button>
-              </div>
-
-              <p
-                aria-live="polite"
-                className={`mt-5 min-h-5 text-center text-xs font-normal text-brand-200 transition-all duration-200 lg:text-right ${
-                  contactHint ? 'translate-y-0 opacity-100' : '-translate-y-1 opacity-0'
-                }`}
+          <div className="lg:ml-auto">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 lg:justify-end">
+              <button
+                type="button"
+                onClick={openContactChat}
+                onMouseEnter={() => setContactHint('Envoyer un message')}
+                onMouseLeave={() => setContactHint(null)}
+                onFocus={() => setContactHint('Envoyer un message')}
+                onBlur={() => setContactHint(null)}
+                aria-label="Envoyer un message"
+                className={`${contactButtonBaseClassName} border-line bg-canvas/35 text-copy-muted hover:border-brand-300/70 hover:text-brand-200 focus-visible:ring-brand-200/50`}
               >
-                {contactHint}
-              </p>
+                <MessageCircleMore size={34} strokeWidth={1.8} />
+              </button>
+
+              <a
+                href="https://linkedin.com/in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={() => setContactHint('Me contacter sur LinkedIn')}
+                onMouseLeave={() => setContactHint(null)}
+                onFocus={() => setContactHint('Me contacter sur LinkedIn')}
+                onBlur={() => setContactHint(null)}
+                aria-label="LinkedIn"
+                className={contactButtonNeutralClassName}
+              >
+                <LinkedInIcon className="h-8 w-8" />
+              </a>
+
+              <a
+                href="https://github.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={() => setContactHint('Voir mes projets')}
+                onMouseLeave={() => setContactHint(null)}
+                onFocus={() => setContactHint('Voir mes projets')}
+                onBlur={() => setContactHint(null)}
+                aria-label="GitHub"
+                className={contactButtonNeutralClassName}
+              >
+                <GitHubIcon className="h-8 w-8" />
+              </a>
+
+              <button
+                type="button"
+                aria-disabled="true"
+                onMouseEnter={() => setContactHint('Reserver un creneau')}
+                onMouseLeave={() => setContactHint(null)}
+                onFocus={() => setContactHint('Reserver un creneau')}
+                onBlur={() => setContactHint(null)}
+                aria-label="Reserver un creneau bientot disponible"
+                className={`${contactButtonBaseClassName} relative cursor-not-allowed border-line bg-canvas/20 text-copy-faint/55 hover:border-brand-300/40 hover:text-brand-200/65 focus-visible:ring-brand-200/30`}
+              >
+                <CalendarClock size={34} strokeWidth={1.8} />
+                <span className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 rounded-full border border-line bg-panel px-2 py-0.5 text-[10px] font-medium text-copy-faint">
+                  bientot
+                </span>
+              </button>
             </div>
+
+            <p
+              aria-live="polite"
+              className={`mt-5 min-h-5 text-center text-xs font-normal text-brand-200 transition-all duration-200 lg:text-right ${
+                contactHint ? 'translate-y-0 opacity-100' : '-translate-y-1 opacity-0'
+              }`}
+            >
+              {contactHint}
+            </p>
           </div>
         </div>
-      </article>
-    </>
+      </div>
+    </article>
   )
 }
 

@@ -33,9 +33,9 @@ export function ProductProjectCard({ project }: { project: Project }) {
       className="group flex min-h-full min-w-0 flex-col overflow-hidden rounded-lg border border-line bg-panel/70 p-4 outline-none transition-colors hover:border-line-soft focus-visible:ring-2 focus-visible:ring-brand-200/50"
     >
       <div className="h-52 overflow-hidden rounded-lg md:h-56">
-        {project.image ? (
+        {project.cardImage ? (
           <Image
-            src={project.image}
+            src={project.cardImage}
             alt={`Aperçu du projet ${project.title}`}
             width={1200}
             height={800}
