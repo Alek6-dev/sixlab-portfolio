@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import ProjectMockup from '@/components/ProjectMockup'
+import { openContactChat } from '@/components/ContactChatLauncher'
 
 type ShowcaseItem = {
   label: string
@@ -111,12 +112,13 @@ export default function HeroShowcase() {
             >
               Voir mes projets
             </a>
-            <a
-              href="#contact"
+            <button
+              type="button"
+              onClick={openContactChat}
               className="inline-flex items-center gap-2 rounded-lg border border-brand-200/50 px-5 py-3 text-sm font-semibold text-copy transition-colors hover:border-brand-100 hover:text-brand-100 sm:gap-3 sm:px-6"
             >
               Me contacter
-            </a>
+            </button>
           </div>
         </div>
 

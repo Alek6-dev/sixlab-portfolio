@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { openContactChat } from '@/components/ContactChatLauncher'
 
 export default function Navbar() {
   const pathname = usePathname()
@@ -13,7 +14,7 @@ export default function Navbar() {
           href="/"
           className="text-2xl font-semibold tracking-tight text-copy transition-opacity hover:opacity-80"
         >
-          alek<span className="text-brand-200">.</span>
+          sixlab<span className="text-brand-200">.</span>
         </Link>
 
         <div className="flex items-center gap-4 sm:gap-8">
@@ -33,14 +34,13 @@ export default function Navbar() {
           >
             About
           </Link>
-          <a
-            href="https://linkedin.com/in/"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={openContactChat}
             className="hidden text-xs text-copy-muted transition-colors hover:text-copy sm:inline sm:text-sm"
           >
             Contact
-          </a>
+          </button>
         </div>
       </nav>
     </header>

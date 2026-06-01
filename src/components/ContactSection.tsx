@@ -8,7 +8,7 @@ type ContactHint =
   | 'Envoyer un message'
   | 'Me contacter sur LinkedIn'
   | 'Voir mes projets'
-  | 'Reserver un creneau'
+  | 'Réserver un créneau'
   | null
 
 type ContactSectionVariant = 'home' | 'project'
@@ -61,7 +61,7 @@ export default function ContactSection({ variant = 'home' }: { variant?: Contact
               </button>
 
               <a
-                href="https://linkedin.com/in/"
+                href="https://www.linkedin.com/in/alexis-bissuel-32a356160/"
                 target="_blank"
                 rel="noopener noreferrer"
                 onMouseEnter={() => setContactHint('Me contacter sur LinkedIn')}
@@ -75,7 +75,7 @@ export default function ContactSection({ variant = 'home' }: { variant?: Contact
               </a>
 
               <a
-                href="https://github.com/"
+                href="https://github.com/Alek6-dev"
                 target="_blank"
                 rel="noopener noreferrer"
                 onMouseEnter={() => setContactHint('Voir mes projets')}
@@ -91,11 +91,11 @@ export default function ContactSection({ variant = 'home' }: { variant?: Contact
               <button
                 type="button"
                 aria-disabled="true"
-                onMouseEnter={() => setContactHint('Reserver un creneau')}
+                onMouseEnter={() => setContactHint('Réserver un créneau')}
                 onMouseLeave={() => setContactHint(null)}
-                onFocus={() => setContactHint('Reserver un creneau')}
+                onFocus={() => setContactHint('Réserver un créneau')}
                 onBlur={() => setContactHint(null)}
-                aria-label="Reserver un creneau bientot disponible"
+                aria-label="Réserver un créneau bientôt disponible"
                 className={`${contactButtonBaseClassName} relative cursor-not-allowed border-line bg-canvas/20 text-copy-faint/55 hover:border-brand-300/40 hover:text-brand-200/65 focus-visible:ring-brand-200/30`}
               >
                 <CalendarClock size={34} strokeWidth={1.8} />

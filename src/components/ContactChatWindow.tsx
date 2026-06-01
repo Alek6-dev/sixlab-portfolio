@@ -20,6 +20,7 @@ export default function ContactChatWindow({ isOpen, onClose }: ContactChatWindow
   const [contactValue, setContactValue] = useState('')
   const [error, setError] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSending, setIsSending] = useState(false)
 
   const hasMessage = message.trim().length > 0
   const canSendMessage = messageDraft.trim().length > 2
@@ -43,7 +44,7 @@ export default function ContactChatWindow({ isOpen, onClose }: ContactChatWindow
     setError('')
   }
 
-  function handleContactSubmit() {
+  async function handleContactSubmit() {
     if (!contactMethod) {
       setError('Choisissez un moyen de contact.')
       return
@@ -65,7 +66,33 @@ export default function ContactChatWindow({ isOpen, onClose }: ContactChatWindow
     }
 
     setError('')
-    setIsSubmitted(true)
+    setIsSending(true)
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          message,
+          contactMethod,
+          contactValue: trimmedValue,
+          source: 'Portfolio - chat contact',
+          website: '',
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Contact request failed')
+      }
+
+      setIsSubmitted(true)
+    } catch {
+      setError('Le message n’a pas pu être envoyé. Réessayez dans quelques instants.')
+    } finally {
+      setIsSending(false)
+    }
   }
 
   return (
@@ -170,7 +197,8 @@ export default function ContactChatWindow({ isOpen, onClose }: ContactChatWindow
                       <button
                         type="button"
                         onClick={handleContactSubmit}
-                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brand-200 text-canvas transition-colors hover:bg-brand-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-200/50"
+                        disabled={isSending}
+                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brand-200 text-canvas transition-colors hover:bg-brand-100 disabled:cursor-not-allowed disabled:bg-line disabled:text-copy-faint focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-200/50"
                         aria-label="Envoyer le moyen de contact"
                       >
                         <Send size={16} strokeWidth={2} className="-translate-x-px translate-y-px" />
@@ -179,6 +207,7 @@ export default function ContactChatWindow({ isOpen, onClose }: ContactChatWindow
                   </label>
                 )}
 
+                {isSending && <p className="text-xs text-copy-faint">Envoi en cours...</p>}
                 {error && <p className="text-xs text-status-danger-text">{error}</p>}
               </div>
             )}

@@ -5,6 +5,7 @@ node_modules/
 .next/
 .next-dev/
 out/
+*.tsbuildinfo
 
 # logs
 *.log
@@ -19,8 +20,9 @@ pnpm-debug.log*
 
 # local tooling / generated captures
 .claude/
-portfolio-home.png
-portfolio-mobile.png
+portfolio-*.png
+react/
+react-about/
 
 # raw generated image drafts kept locally
 ChatGPT Image *.png

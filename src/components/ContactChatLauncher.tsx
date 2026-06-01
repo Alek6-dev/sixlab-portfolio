@@ -7,6 +7,8 @@ import ContactChatWindow from '@/components/ContactChatWindow'
 const openContactChatEvent = 'open-contact-chat'
 
 export function openContactChat() {
+  if (typeof window === 'undefined') return
+
   window.dispatchEvent(new Event(openContactChatEvent))
 }
 

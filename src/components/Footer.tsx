@@ -4,9 +4,9 @@ export default function Footer() {
   return (
     <footer className="mt-auto border-t border-line">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-8">
-        <span className="text-sm text-copy-faint">© {new Date().getFullYear()} Alek</span>
+        <span className="text-sm text-copy-faint">© {new Date().getFullYear()} sixlab</span>
         <a
-          href="https://linkedin.com/in/"
+          href="https://www.linkedin.com/in/alexis-bissuel-32a356160/"
           target="_blank"
           rel="noopener noreferrer"
           className="text-sm text-copy-faint transition-colors hover:text-copy"

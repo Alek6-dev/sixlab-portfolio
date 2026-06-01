@@ -70,31 +70,31 @@ export default function ProjectPreviewGallery({ images }: ProjectPreviewGalleryP
               : 'col-span-2 h-32 sm:h-40'
 
           return (
-          <button
-            key={image.src}
-            type="button"
-            onClick={() => setActiveIndex(index)}
-            className={`group relative overflow-hidden rounded-lg border border-line-soft bg-panel text-left outline-none transition-colors hover:border-brand-200/60 focus-visible:border-brand-200 focus-visible:ring-2 focus-visible:ring-brand-200/40 ${tileClassName}`}
-            aria-label={`Agrandir la capture ${index + 1}`}
-          >
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              sizes={isPortraitGallery ? '132px' : image.full ? '(min-width: 640px) 720px, 100vw' : '(min-width: 640px) 352px, 100vw'}
-              className="object-cover transition duration-300 group-hover:scale-[1.02] group-hover:brightness-75"
-            />
-            {hasHiddenOverlay && (
-              <span className="absolute inset-0 flex items-center justify-center bg-black/60 text-3xl font-semibold text-white">
-                +{hiddenCount}
-              </span>
-            )}
-            {!hasHiddenOverlay && (
-              <span className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/15 bg-black/45 text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-                <Maximize2 size={15} strokeWidth={1.8} />
-              </span>
-            )}
-          </button>
+            <button
+              key={image.src}
+              type="button"
+              onClick={() => setActiveIndex(index)}
+              className={`group relative overflow-hidden rounded-lg border border-line-soft bg-panel text-left outline-none transition-colors hover:border-brand-200/60 focus-visible:border-brand-200 focus-visible:ring-2 focus-visible:ring-brand-200/40 ${tileClassName}`}
+              aria-label={`Agrandir la capture ${index + 1}`}
+            >
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                sizes={isPortraitGallery ? '132px' : image.full ? '(min-width: 640px) 720px, 100vw' : '(min-width: 640px) 352px, 100vw'}
+                className="object-cover transition duration-300 group-hover:scale-[1.02] group-hover:brightness-75"
+              />
+              {hasHiddenOverlay && (
+                <span className="absolute inset-0 flex items-center justify-center bg-black/60 text-3xl font-semibold text-white">
+                  +{hiddenCount}
+                </span>
+              )}
+              {!hasHiddenOverlay && (
+                <span className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/15 bg-black/45 text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                  <Maximize2 size={15} strokeWidth={1.8} />
+                </span>
+              )}
+            </button>
           )
         })}
       </div>

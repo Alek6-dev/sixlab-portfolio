@@ -148,6 +148,29 @@ Travail contenu JCC Football realise :
 - `03 - Preview` mixe 5 captures desktop admin visibles et 2 captures mobiles accessibles dans la galerie (`jcc-foot-preview01` a `07`) ;
 - `04 - Now` precise que la mecanique de jeu in-app est figee, mais que la logique fantasy et scoring/affrontement restent a determiner.
 
+Travail contenu Website KOP realise :
+
+- page projet `site-web-king-of-paddock` travaillee sur le fond ;
+- `01 - Context` explique que le site existait avant l'application, servait a presenter le concept, recruter les premiers joueurs et donner un point d'entree public au jeu ;
+- `02 - Build` explique la reprise du site, sa simplification en logique landing page, la page news et l'automatisation editoriale ;
+- `build.features` couvre acquisition, presentation simplifiee, contenu editorial, automatisation des news et support communautaire ;
+- `03 - Preview` utilise les captures `kop-website-preview00.png` a `kop-website-preview05.png` ;
+- skills actuelles : coherence produit, contenus orientes SEO, automatisation editoriale, onboarding vers l'application, clarification du parcours, analyse des performances ;
+- stack actuelle : WordPress, SEO, Automatisation n8n, UX design, Landing page.
+
+Contact chat / Brevo :
+
+- le chat de contact n'est plus seulement simule ;
+- route API creee : `src/app/api/contact/route.ts` ;
+- `ContactChatWindow` envoie maintenant vers `/api/contact` ;
+- l'envoi passe par l'API transactionnelle Brevo via `fetch`, sans package externe ;
+- fichier local cree : `.env.local` avec `BREVO_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` ;
+- ne jamais commiter `.env.local` ;
+- test local reussi : Alexis a recu un mail Brevo avec le message et l'email de contact ;
+- comme l'adresse actuelle est Gmail, Brevo peut afficher un expediteur technique `brevosend.com` : c'est acceptable pour tester ;
+- en production, il faudra ajouter les memes variables d'environnement dans l'hebergeur ;
+- plus tard, pour un expediteur propre, creer/valider une adresse type `contact@sixlab.fr` et authentifier le domaine dans Brevo.
+
 Galerie preview projet :
 
 - composant : `src/components/ProjectPreviewGallery.tsx` ;
@@ -163,8 +186,9 @@ Point important pour la suite :
 
 - ne pas remettre de labels structurels dans `src/data/projects.ts` ;
 - la data injecte du contenu dans un template fixe ;
-- prochain travail prevu : page projet `site-web-king-of-paddock`, puis relecture globale des pages projet ;
-- ne pas oublier la mise en ligne finale et le branchement du domaine `sixlab.fr`.
+- prochain gros point bloque avant mise en ligne : la page `about`, qu'Alexis a jugee non faite / pas satisfaisante ;
+- ensuite : relecture globale des pages projet et de la home ;
+- avant production : ajouter les variables Brevo dans l'hebergeur, deployer, puis brancher le domaine `sixlab.fr`.
 
 ## Fichiers importants
 
