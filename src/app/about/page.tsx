@@ -149,8 +149,8 @@ export default function AboutPage() {
         <article className="overflow-hidden rounded-lg border border-line bg-panel/70">
           <div className="h-56 bg-panel-soft">
             <Image
-              src={about.portrait.src}
-              alt={about.portrait.alt}
+              src={about.profileCardImage.src}
+              alt={about.profileCardImage.alt}
               width={360}
               height={224}
               className="h-full w-full object-cover"

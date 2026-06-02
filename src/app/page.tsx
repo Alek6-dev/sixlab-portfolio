@@ -29,7 +29,7 @@ const focusAreas = [
 ]
 
 const aboutTeaser = {
-  image: '/profile/alek-portrait.webp',
+  image: '/profile/alexis-home.webp',
   eyebrow: 'En quelques mots',
   text:
     'Constamment animé par la résolution de problématiques, je réfléchis sans cesse aux idées qui donnent vie à un projet. J’ai construit mes propres produits et outils avec cette logique, et je veux aujourd’hui l’appliquer à de nouveaux besoins. Cadrer, construire, tester, améliorer, avec l’IA générative comme accélérateur et la fiabilité comme exigence.',

@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import Image from 'next/image'
 import { Mail, Phone, Send, X } from 'lucide-react'
 
 type ContactMethod = 'email' | 'phone' | null
@@ -105,9 +106,15 @@ export default function ContactChatWindow({ isOpen, onClose }: ContactChatWindow
       />
       <aside className="fixed inset-x-4 bottom-28 z-[70] mx-auto max-w-[380px] overflow-hidden rounded-lg border border-line bg-panel shadow-[0_24px_90px_rgba(0,0,0,0.48)] sm:inset-x-auto sm:right-6 sm:mx-0 sm:w-[460px] sm:max-w-[calc(100vw-3rem)] lg:w-[520px]">
       <div className="flex items-center justify-between border-b border-line bg-canvas/25 px-4 py-3">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-canvas text-sm font-semibold text-brand-200">
-            A
+          <div className="flex items-center gap-3">
+          <div className="h-9 w-9 overflow-hidden rounded-lg border border-line bg-canvas">
+            <Image
+              src="/profile/alexis-hero.webp"
+              alt="Alexis"
+              width={36}
+              height={36}
+              className="h-full w-full object-cover"
+            />
           </div>
           <div>
             <p className="text-sm font-semibold text-copy">Alexis</p>
@@ -228,8 +235,14 @@ export default function ContactChatWindow({ isOpen, onClose }: ContactChatWindow
 function AlexisBubble({ children }: { children: string }) {
   return (
     <div className="flex max-w-[86%] gap-2">
-      <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-line bg-canvas text-[11px] font-semibold text-brand-200">
-        A
+      <div className="mt-1 h-6 w-6 shrink-0 overflow-hidden rounded-md border border-line bg-canvas">
+        <Image
+          src="/profile/alexis-hero.webp"
+          alt="Alexis"
+          width={24}
+          height={24}
+          className="h-full w-full object-cover"
+        />
       </div>
       <div className="rounded-lg border border-line bg-panel-muted/55 px-3 py-2 text-sm leading-relaxed text-copy">
         {children}

@@ -22,7 +22,11 @@ export const about = {
   role: 'Product Builder & Tester',
   availability: 'Disponible actuellement',
   portrait: {
-    src: '/profile/alek-portrait.webp',
+    src: '/profile/alexis-hero.webp',
+    alt: "Portrait d'Alexis",
+  },
+  profileCardImage: {
+    src: '/profile/alexis-card.webp',
     alt: "Portrait d'Alexis",
   },
   hero: {
