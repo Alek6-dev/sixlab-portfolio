@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import type { TouchEvent } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { Automation } from '@/data/automations'
 import AutomationCard from '@/components/AutomationCard'
@@ -10,6 +11,8 @@ export default function AutomationSection({ automations }: { automations: Automa
   const [leavingCard, setLeavingCard] = useState<{ automation: Automation; id: number } | null>(null)
   const animationIdRef = useRef(0)
   const leaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const touchStartXRef = useRef<number | null>(null)
+  const touchSwipedRef = useRef(false)
   const hasPagination = automations.length > 1
   const activeAutomation = automations[activeIndex]
   const stackedAutomations = automations.slice(activeIndex + 1)
@@ -50,11 +53,50 @@ export default function AutomationSection({ automations }: { automations: Automa
     navigateTo((activeIndex + 1) % automations.length)
   }
 
+  function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
+    touchStartXRef.current = event.touches[0]?.clientX ?? null
+    touchSwipedRef.current = false
+  }
+
+  function handleTouchEnd(event: TouchEvent<HTMLDivElement>) {
+    if (!hasPagination || touchStartXRef.current === null) return
+
+    const endX = event.changedTouches[0]?.clientX
+    if (endX === undefined) return
+
+    const deltaX = endX - touchStartXRef.current
+    touchStartXRef.current = null
+
+    if (Math.abs(deltaX) < 48) return
+
+    touchSwipedRef.current = true
+    if (deltaX < 0) {
+      goToNext()
+    } else {
+      goToPrevious()
+    }
+
+    window.setTimeout(() => {
+      touchSwipedRef.current = false
+    }, 120)
+  }
+
   if (!activeAutomation) return null
 
   return (
     <div>
-      <div className="relative" style={{ paddingBottom: stackPaddingPx }}>
+      <div
+        className="relative touch-pan-y"
+        style={{ paddingBottom: stackPaddingPx }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onClickCapture={(event) => {
+          if (touchSwipedRef.current) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+        }}
+      >
         {hasPagination && (
           <div
             aria-hidden="true"

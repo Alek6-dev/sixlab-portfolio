@@ -75,9 +75,9 @@ export default function AutomationCard({ automation }: { automation: Automation 
             </span>
           </div>
 
-          <p className="min-h-[108px] max-w-md text-sm leading-relaxed text-copy-muted">{automation.description}</p>
+          <p className="max-w-md text-sm leading-relaxed text-copy-muted lg:min-h-[108px]">{automation.description}</p>
 
-          <div className="mt-8 flex min-h-[68px] max-w-md flex-wrap content-start gap-3">
+          <div className="mt-5 flex min-h-[68px] max-w-md flex-wrap content-start gap-3 lg:mt-8">
             {automation.stack.map((item) => (
               <span
                 key={item}
@@ -88,13 +88,15 @@ export default function AutomationCard({ automation }: { automation: Automation 
             ))}
           </div>
 
-          <a
-            href={automation.href ?? '#automations'}
-            className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-brand-200 transition-colors group-hover:text-brand-100 hover:text-brand-100"
-          >
-            Voir le détail
-            <ChevronRight size={15} strokeWidth={2} className="transition-transform group-hover:translate-x-1" />
-          </a>
+          {automation.href && (
+            <a
+              href={automation.href}
+              className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-brand-200 transition-colors group-hover:text-brand-100 hover:text-brand-100"
+            >
+              Voir le détail
+              <ChevronRight size={15} strokeWidth={2} className="transition-transform group-hover:translate-x-1" />
+            </a>
+          )}
         </div>
 
         <AutomationFlow automation={automation} />
@@ -156,35 +158,168 @@ function AutomationFlow({ automation }: { automation: Automation }) {
   }, [cycleMs, isInView])
 
   return (
-    <div ref={flowRef} className="automation-flow-scroll relative min-h-[452px] overflow-x-auto overflow-y-hidden bg-canvas/25 px-5 py-7 sm:px-8 lg:px-10">
-      <div className="relative mx-auto flex h-full min-w-[650px] max-w-3xl flex-col justify-center lg:min-w-0">
-        <div className="flex items-center">
-          {automation.flow.nodes.map((node, index) => {
-            const Icon = nodeIcons[node.id as keyof typeof nodeIcons] ?? FileText
-            const isLast = index === automation.flow.nodes.length - 1
-            const nodeState = nodeStates[index]
-            const edgeState = getEdgeState(index, elapsedMs, automation.flow.nodes.length)
+    <div ref={flowRef} className="bg-canvas/25">
+      <div className="px-4 py-6 sm:px-5 md:hidden">
+        <MobileAutomationFlow nodes={automation.flow.nodes} nodeStates={nodeStates} elapsedMs={elapsedMs} />
+        <MobileWorkflowTaskList nodes={automation.flow.nodes} nodeStates={nodeStates} />
+      </div>
 
-            return (
-              <Fragment key={node.id}>
-                <div
-                  className={`relative z-10 flex h-20 min-w-[68px] flex-col items-center justify-center rounded-lg border text-center transition-all duration-300 ${animatedNodeStyles[nodeState]}`}
-                >
-                  <Icon size={24} strokeWidth={1.8} />
-                  <span className="mt-2 text-xs font-semibold text-copy">{node.label}</span>
-                </div>
+      <div className="automation-flow-scroll relative hidden min-h-[452px] overflow-x-auto overflow-y-hidden px-5 py-7 md:block sm:px-8 lg:px-10">
+        <div className="relative mx-auto flex h-full min-w-[650px] max-w-3xl flex-col justify-center lg:min-w-0">
+          <div className="flex items-center">
+            {automation.flow.nodes.map((node, index) => {
+              const Icon = nodeIcons[node.id as keyof typeof nodeIcons] ?? FileText
+              const isLast = index === automation.flow.nodes.length - 1
+              const nodeState = nodeStates[index]
+              const edgeState = getEdgeState(index, elapsedMs, automation.flow.nodes.length)
 
-                {!isLast && (
-                  <FlowConnector state={edgeState} />
-                )}
-              </Fragment>
-            )
-          })}
+              return (
+                <Fragment key={node.id}>
+                  <div
+                    className={`relative z-10 flex h-20 min-w-[68px] flex-col items-center justify-center rounded-lg border text-center transition-all duration-300 ${animatedNodeStyles[nodeState]}`}
+                  >
+                    <Icon size={24} strokeWidth={1.8} />
+                    <span className="mt-2 text-xs font-semibold text-copy">{node.label}</span>
+                  </div>
+
+                  {!isLast && (
+                    <FlowConnector state={edgeState} />
+                  )}
+                </Fragment>
+              )
+            })}
+          </div>
+
+          <WorkflowTaskList nodes={automation.flow.nodes} nodeStates={nodeStates} />
         </div>
-
-        <WorkflowTaskList nodes={automation.flow.nodes} nodeStates={nodeStates} />
       </div>
     </div>
+  )
+}
+
+function MobileAutomationFlow({
+  nodes,
+  nodeStates,
+  elapsedMs,
+}: {
+  nodes: Automation['flow']['nodes']
+  nodeStates: NodeState[]
+  elapsedMs: number
+}) {
+  return (
+    <div className="mx-auto grid w-fit grid-cols-[5rem_5rem] gap-x-8 gap-y-12">
+      {nodes.map((node, index) => {
+        const Icon = nodeIcons[node.id as keyof typeof nodeIcons] ?? FileText
+        const nodeState = nodeStates[index]
+        const position = getMobileNodePosition(index)
+        const isLast = index === nodes.length - 1
+        const edgeState = getEdgeState(index, elapsedMs, nodes.length)
+
+        return (
+          <div
+            key={node.id}
+            className={`relative flex h-20 w-20 min-w-0 flex-col items-center justify-center rounded-lg border px-2 text-center transition-all duration-300 ${animatedNodeStyles[nodeState]}`}
+            style={{
+              gridColumn: position.column,
+              gridRow: position.row,
+            }}
+          >
+            <Icon size={19} strokeWidth={1.8} />
+            <span className="mt-1 max-w-full text-[10px] font-semibold leading-tight text-copy">
+              {node.label}
+            </span>
+            {!isLast && <MobileFlowConnector index={index} state={edgeState} />}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function MobileWorkflowTaskList({
+  nodes,
+  nodeStates,
+}: {
+  nodes: Automation['flow']['nodes']
+  nodeStates: NodeState[]
+}) {
+  return (
+    <div className="mt-12 grid gap-2">
+      {nodes.map((node, index) => {
+        const nodeState = nodeStates[index]
+
+        return (
+          <div
+            key={node.id}
+            className={`flex items-start gap-3 rounded-md border border-line bg-panel-muted/45 px-3 py-2 ${
+              nodeState === 'done' ? 'text-copy' : 'text-copy-faint'
+            }`}
+          >
+            <TaskStatusIcon state={nodeState} />
+            <p className="text-[12px] leading-relaxed">{node.task}</p>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function MobileFlowConnector({ index, state }: { index: number; state: EdgeState }) {
+  const progress = `${state.progress * 100}%`
+
+  if (index % 4 === 0) {
+    return (
+      <span aria-hidden="true" className="absolute left-full top-1/2 h-px w-8 bg-line">
+        <span
+          className={`absolute inset-y-0 left-0 transition-[width,background-color] duration-200 ease-linear ${
+            state.isDone ? 'bg-status-live-text' : 'bg-brand-200'
+          }`}
+          style={{ width: progress }}
+        />
+        <span
+          className={`absolute top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-200 shadow-[0_0_18px_rgba(255,210,138,0.75)] transition-opacity duration-150 ${
+            state.isFilling ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{ left: progress }}
+        />
+      </span>
+    )
+  }
+
+  if (index % 4 === 1 || index % 4 === 3) {
+    return (
+      <span aria-hidden="true" className="absolute left-1/2 top-[calc(100%)] h-12 w-px -translate-x-1/2 bg-line">
+        <span
+          className={`absolute inset-x-0 top-0 transition-[height,background-color] duration-200 ease-linear ${
+            state.isDone ? 'bg-status-live-text' : 'bg-brand-200'
+          }`}
+          style={{ height: progress }}
+        />
+        <span
+          className={`absolute left-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-200 shadow-[0_0_18px_rgba(255,210,138,0.75)] transition-opacity duration-150 ${
+            state.isFilling ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{ top: progress }}
+        />
+      </span>
+    )
+  }
+
+  return (
+    <span aria-hidden="true" className="absolute right-full top-1/2 h-px w-8 bg-line">
+      <span
+        className={`absolute inset-y-0 right-0 transition-[width,background-color] duration-200 ease-linear ${
+          state.isDone ? 'bg-status-live-text' : 'bg-brand-200'
+        }`}
+        style={{ width: progress }}
+      />
+      <span
+        className={`absolute top-1/2 h-1.5 w-1.5 translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-200 shadow-[0_0_18px_rgba(255,210,138,0.75)] transition-opacity duration-150 ${
+          state.isFilling ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{ right: progress }}
+      />
+    </span>
   )
 }
 
@@ -284,6 +419,21 @@ function getNodeState(index: number, elapsedMs: number): NodeState {
   if (elapsedMs < stepStart) return 'idle'
   if (elapsedMs < runEnd) return 'running'
   return 'done'
+}
+
+function getMobileNodePosition(index: number) {
+  const positions = [
+    { column: '1', row: '1' },
+    { column: '2', row: '1' },
+    { column: '2', row: '2' },
+    { column: '1', row: '2' },
+    { column: '1', row: '3' },
+  ]
+
+  return positions[index] ?? {
+    column: index % 2 === 0 ? '1' : '2',
+    row: String(Math.floor(index / 2) + 1),
+  }
 }
 
 function getEdgeState(index: number, elapsedMs: number, nodeCount: number): EdgeState {

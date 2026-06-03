@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import type { TouchEvent } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { Project } from '@/data/projects'
 import { ProductProjectCard } from '@/components/ProjectCards'
@@ -16,6 +17,8 @@ function getVisibleProjectCount() {
 
 export default function ProductProjectsCarousel({ projects }: { projects: Project[] }) {
   const trackRef = useRef<HTMLDivElement>(null)
+  const touchStartXRef = useRef<number | null>(null)
+  const touchSwipedRef = useRef(false)
   const [startIndex, setStartIndex] = useState(0)
   const [slideStepPx, setSlideStepPx] = useState(0)
   const [visibleProjectCount, setVisibleProjectCount] = useState(desktopProjectCount)
@@ -66,12 +69,50 @@ export default function ProductProjectsCarousel({ projects }: { projects: Projec
     setStartIndex((current) => (current + 1) % pageCount)
   }
 
+  function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
+    touchStartXRef.current = event.touches[0]?.clientX ?? null
+    touchSwipedRef.current = false
+  }
+
+  function handleTouchEnd(event: TouchEvent<HTMLDivElement>) {
+    if (!hasPagination || touchStartXRef.current === null) return
+
+    const endX = event.changedTouches[0]?.clientX
+    if (endX === undefined) return
+
+    const deltaX = endX - touchStartXRef.current
+    touchStartXRef.current = null
+
+    if (Math.abs(deltaX) < 48) return
+
+    touchSwipedRef.current = true
+    if (deltaX < 0) {
+      goToNext()
+    } else {
+      goToPrevious()
+    }
+
+    window.setTimeout(() => {
+      touchSwipedRef.current = false
+    }, 120)
+  }
+
   return (
     <div>
-      <div className="overflow-hidden">
+      <div
+        className="overflow-hidden"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onClickCapture={(event) => {
+          if (touchSwipedRef.current) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+        }}
+      >
         <div
           ref={trackRef}
-          className="flex gap-6 transition-transform duration-500 ease-out"
+          className="flex touch-pan-y gap-6 transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${startIndex * slideStepPx}px)` }}
         >
           {projects.map((project) => (

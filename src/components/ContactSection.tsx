@@ -27,7 +27,7 @@ const contactCopy = {
 }
 
 const contactButtonBaseClassName =
-  'flex h-20 w-20 items-center justify-center rounded-lg border transition-colors focus-visible:outline-none focus-visible:ring-2'
+  'flex h-14 w-14 items-center justify-center rounded-lg border transition-colors focus-visible:outline-none focus-visible:ring-2 sm:h-20 sm:w-20'
 
 const contactButtonNeutralClassName =
   `${contactButtonBaseClassName} border-line bg-canvas/35 text-copy-muted hover:border-brand-300/70 hover:text-brand-200 focus-visible:ring-brand-200/50`
@@ -46,7 +46,7 @@ export default function ContactSection({ variant = 'home' }: { variant?: Contact
           </div>
 
           <div className="lg:ml-auto">
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4 lg:justify-end">
+            <div className="flex items-center gap-2 sm:gap-4 lg:justify-end">
               <button
                 type="button"
                 onClick={openContactChat}
@@ -57,7 +57,7 @@ export default function ContactSection({ variant = 'home' }: { variant?: Contact
                 aria-label="Envoyer un message"
                 className={`${contactButtonBaseClassName} border-line bg-canvas/35 text-copy-muted hover:border-brand-300/70 hover:text-brand-200 focus-visible:ring-brand-200/50`}
               >
-                <MessageCircleMore size={34} strokeWidth={1.8} />
+                <MessageCircleMore className="h-6 w-6 sm:h-[34px] sm:w-[34px]" strokeWidth={1.8} />
               </button>
 
               <a
@@ -71,7 +71,7 @@ export default function ContactSection({ variant = 'home' }: { variant?: Contact
                 aria-label="LinkedIn"
                 className={contactButtonNeutralClassName}
               >
-                <LinkedInIcon className="h-8 w-8" />
+                <LinkedInIcon className="h-6 w-6 sm:h-8 sm:w-8" />
               </a>
 
               <a
@@ -85,7 +85,7 @@ export default function ContactSection({ variant = 'home' }: { variant?: Contact
                 aria-label="GitHub"
                 className={contactButtonNeutralClassName}
               >
-                <GitHubIcon className="h-8 w-8" />
+                <GitHubIcon className="h-6 w-6 sm:h-8 sm:w-8" />
               </a>
 
               <button
@@ -98,7 +98,7 @@ export default function ContactSection({ variant = 'home' }: { variant?: Contact
                 aria-label="Réserver un créneau bientôt disponible"
                 className={`${contactButtonBaseClassName} relative cursor-not-allowed border-line bg-canvas/20 text-copy-faint/55 hover:border-brand-300/40 hover:text-brand-200/65 focus-visible:ring-brand-200/30`}
               >
-                <CalendarClock size={34} strokeWidth={1.8} />
+                <CalendarClock className="h-6 w-6 sm:h-[34px] sm:w-[34px]" strokeWidth={1.8} />
                 <span className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 rounded-full border border-line bg-panel px-2 py-0.5 text-[10px] font-medium text-copy-faint">
                   bientot
                 </span>
@@ -107,7 +107,7 @@ export default function ContactSection({ variant = 'home' }: { variant?: Contact
 
             <p
               aria-live="polite"
-              className={`mt-5 min-h-5 text-center text-xs font-normal text-brand-200 transition-all duration-200 lg:text-right ${
+              className={`mt-5 min-h-5 text-left text-xs font-normal text-brand-200 transition-all duration-200 lg:text-right ${
                 contactHint ? 'translate-y-0 opacity-100' : '-translate-y-1 opacity-0'
               }`}
             >
