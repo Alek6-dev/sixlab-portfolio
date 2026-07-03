@@ -6,11 +6,19 @@ import { CheckCircle2, ChevronRight } from 'lucide-react'
 import AboutContactButton from '@/components/AboutContactButton'
 import AboutQuestions from '@/components/AboutQuestions'
 import { about } from '@/data/about'
+import { aboutSeo } from '@/data/seo'
 
 export const metadata: Metadata = {
-  title: 'À propos - Alexis',
-  description:
-    'Product Builder & Tester : produit, build assisté par IA, test fonctionnel, automatisation et amélioration continue.',
+  title: aboutSeo.title,
+  description: aboutSeo.description,
+  alternates: {
+    canonical: '/about',
+  },
+  openGraph: {
+    title: aboutSeo.title,
+    description: aboutSeo.description,
+    url: '/about',
+  },
 }
 
 export default function AboutPage() {

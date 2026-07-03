@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, ChevronRight, ExternalLink, FileTe
 import ContactSection from '@/components/ContactSection'
 import ProjectPreviewGallery from '@/components/ProjectPreviewGallery'
 import { projects, type Project, type ProjectFeature, type ProjectLink, type ProjectTextSection } from '@/data/projects'
+import { projectSeo } from '@/data/seo'
 import { projectTemplate } from './projectTemplate'
 
 type PageProps = {
@@ -21,10 +22,27 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params
   const project = projects.find((p) => p.slug === slug)
   if (!project) return {}
+  const seo = projectSeo[project.slug]
+  const title = seo?.title || `${project.title} - Projet Sixlab`
+  const description = seo?.description || project.shortDescription || project.tagline
 
   return {
-    title: `${project.title} - Alexis`,
-    description: project.shortDescription || project.tagline,
+    title,
+    description,
+    alternates: {
+      canonical: `/projects/${project.slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `/projects/${project.slug}`,
+      images: [
+        {
+          url: project.heroImage.src,
+          alt: project.heroImage.alt,
+        },
+      ],
+    },
   }
 }
 
