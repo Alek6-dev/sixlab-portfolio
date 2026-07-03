@@ -1,4 +1,4 @@
-export const siteUrl = 'https://sixlab.fr'
+export const siteUrl = 'https://www.sixlab.fr'
 
 export const defaultSeo = {
   siteName: 'Sixlab',
