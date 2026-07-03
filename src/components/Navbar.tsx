@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { openContactChat } from '@/components/ContactChatLauncher'
 
@@ -12,9 +13,17 @@ export default function Navbar() {
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-6">
         <Link
           href="/"
-          className="text-2xl font-semibold tracking-tight text-copy transition-opacity hover:opacity-80"
+          className="flex items-center transition-opacity hover:opacity-80"
+          aria-label="SixLab - Accueil"
         >
-          sixlab<span className="text-brand-200">.</span>
+          <Image
+            src="/logo/sixlab-logo-light.svg"
+            alt="SixLab"
+            width={132}
+            height={26}
+            priority
+            className="h-auto w-[112px] sm:w-[132px]"
+          />
         </Link>
 
         <div className="flex items-center gap-4 sm:gap-8">

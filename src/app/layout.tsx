@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   title: 'Alek - Product Builder & Tester',
   description:
     'Portfolio : apps, SaaS, outils internes, workflows, tests et amélioration produit.',
+  icons: {
+    icon: '/logo/sixlab-icon-light.svg',
+  },
 }
 
 export default function RootLayout({

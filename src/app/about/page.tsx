@@ -119,8 +119,8 @@ export default function AboutPage() {
           <NarrativeSection label="03 - Ce que j'apporte" title={about.concrete.title}>
             <div className="grid gap-3 sm:grid-cols-2">
               {about.concrete.items.map((item) => (
-                <div key={item} className="flex min-w-0 gap-3 rounded-lg border border-line bg-panel/65 p-4 text-sm leading-relaxed text-copy">
-                  <CheckCircle2 className="mt-0.5 shrink-0 text-brand-200" size={16} strokeWidth={1.8} />
+                <div key={item} className="flex min-w-0 items-center gap-3 rounded-lg border border-line bg-panel/65 p-4 text-sm leading-relaxed text-copy">
+                  <CheckCircle2 className="shrink-0 text-brand-200" size={16} strokeWidth={1.8} />
                   <span className="min-w-0 break-words">{item}</span>
                 </div>
               ))}

@@ -20,6 +20,215 @@ Le site doit montrer :
 
 Ce n'est pas une landing page d'agence ni un site de vente agressif.
 
+## SEO
+
+Objectif global :
+
+- avoir des metadonnees et un socle SEO propres ;
+- rendre le site lisible, indexable et trouvable par Google ;
+- montrer qu'Alexis sait construire un site propre techniquement, y compris sur le referencement ;
+- ne pas chercher a se positionner artificiellement sur des requetes ultra-concurrentielles type `developpeur freelance`.
+
+Le site est deja deploye, mais il doit encore etre prepare pour l'indexation : metadata, sitemap, robots, donnees structurees et Search Console.
+
+### A. Positionnement SEO
+
+Ce que Google doit comprendre :
+
+```text
+SixLab est le portfolio d'Alexis Bissuel.
+
+Alexis concoit, developpe, teste et ameliore des produits digitaux : applications web, logiciels metier, outils internes, MVP, dashboards et automatisations.
+
+Son approche relie produit, developpement web, IA, automatisation et test fonctionnel pour transformer des idees, besoins metier ou taches repetitives en solutions concretes.
+```
+
+Version courte :
+
+```text
+SixLab presente le travail d'Alexis Bissuel autour de la creation d'applications web, de logiciels metier, d'automatisations et d'amelioration produit.
+```
+
+### B. Familles de mots
+
+Creation web / developpement :
+
+```text
+application web
+developpement web
+logiciel metier
+outil web
+outil metier
+outil interne
+dashboard
+SaaS
+solution digitale
+```
+
+Idee / MVP / prototype :
+
+```text
+idee d'application
+MVP
+prototype
+prototype fonctionnel
+projet digital
+premiere version
+produit utilisable
+```
+
+Automatisation :
+
+```text
+automatisation
+automatisation de taches
+taches repetitives
+taches manuelles
+process
+workflow
+gain de temps
+IA
+outils automatises
+```
+
+Test / amelioration :
+
+```text
+test fonctionnel
+test produit
+parcours utilisateur
+experience utilisateur
+qualite produit
+amelioration produit
+amelioration continue
+fiabilite
+```
+
+Identite / preuve :
+
+```text
+SixLab
+Alexis Bissuel
+portfolio
+projets web
+applications realisees
+product builder
+creation digitale
+```
+
+### C. Intentions associees
+
+Creer / developper :
+
+```text
+Je veux creer une application web.
+Je veux creer un logiciel pour mon activite.
+Je veux creer un outil pour mon activite.
+Je cherche quelqu'un pour developper une idee.
+Je cherche quelqu'un pour creer un logiciel metier.
+Comment creer une application web ?
+Comment transformer une idee en application ?
+Comment creer un MVP ?
+```
+
+Automatiser / gagner du temps :
+
+```text
+Je veux automatiser une tache manuelle.
+Je veux automatiser des taches repetitives.
+Je cherche une solution pour gagner du temps.
+Je cherche quelqu'un pour automatiser un process.
+Comment automatiser une tache ?
+Comment automatiser des taches manuelles ?
+Comment gagner du temps avec l'automatisation ?
+```
+
+Structurer une idee :
+
+```text
+J'ai une idee d'application mais je ne sais pas par ou commencer.
+Je veux cadrer un projet digital.
+Je cherche quelqu'un pour m'aider a structurer mon idee.
+Comment passer d'une idee a un MVP ?
+Comment cadrer un projet d'application ?
+```
+
+Tester / ameliorer :
+
+```text
+Je veux tester une application web.
+Je veux ameliorer un logiciel existant.
+Je cherche quelqu'un pour ameliorer mon application.
+Comment tester un parcours utilisateur ?
+Comment ameliorer l'experience utilisateur ?
+Comment rendre une application plus fiable ?
+```
+
+Trouver Alexis / SixLab :
+
+```text
+Je cherche SixLab.
+Je cherche Alexis Bissuel.
+Je cherche le portfolio d'Alexis Bissuel.
+Je veux voir les projets SixLab.
+Portfolio SixLab.
+Portfolio Alexis Bissuel.
+```
+
+### D. Traduction dans le site
+
+Home :
+
+```text
+Page principale orientee positionnement global :
+applications web, logiciels metier, outils internes, automatisations, MVP, test et amelioration produit.
+```
+
+About :
+
+```text
+Page d'explication :
+qui est Alexis, comment il travaille, approche produit + developpement + test + IA, capacite a cadrer puis livrer.
+```
+
+Pages projets :
+
+```text
+Pages de preuve :
+chaque projet doit montrer le probleme, la solution, le role, les outils, le resultat, les apprentissages.
+```
+
+Metadata :
+
+```text
+Titles et descriptions uniques pour chaque page.
+Mention claire de SixLab + Alexis Bissuel.
+Mots simples + mots experts selon la page.
+```
+
+Technique SEO :
+
+```text
+metadataBase
+canonical URLs
+robots.txt
+sitemap.xml
+favicon
+Open Graph plus tard
+JSON-LD Person / WebSite / eventuellement ProfessionalService
+Search Console + soumission sitemap
+```
+
+Colonne vertebrale SEO :
+
+```text
+SixLab = Alexis Bissuel
+Creer des applications web et logiciels metier
+Automatiser des taches repetitives ou manuelles
+Transformer une idee en MVP ou prototype
+Tester et ameliorer les produits digitaux
+```
+
 ## Collaboration avec Alexis
 
 Alexis veut ecrire et decider lui-meme les textes. L'agent doit aider a affiner, pas prendre la main.
