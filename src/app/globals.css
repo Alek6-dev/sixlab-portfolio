@@ -68,6 +68,46 @@ a {
   border-radius: 999px;
 }
 
+.submission-range {
+  pointer-events: none;
+  appearance: none;
+  background: transparent;
+}
+
+.submission-range::-webkit-slider-thumb {
+  pointer-events: auto;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 3px solid theme('colors.canvas.DEFAULT');
+  border-radius: 999px;
+  background: theme('colors.brand.200');
+  box-shadow: 0 0 0 1px theme('colors.brand.300');
+  cursor: grab;
+}
+
+.submission-range::-moz-range-thumb {
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  border: 3px solid theme('colors.canvas.DEFAULT');
+  border-radius: 999px;
+  background: theme('colors.brand.200');
+  box-shadow: 0 0 0 1px theme('colors.brand.300');
+  cursor: grab;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @keyframes showcaseFade {
   from {
     opacity: 0;

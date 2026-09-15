@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import ProjectMockup from '@/components/ProjectMockup'
 import { openContactChat } from '@/components/ContactChatLauncher'
+import SubmissionAccessCta from '@/components/SubmissionAccessCta'
 
 type ShowcaseItem = {
   label: string
@@ -119,6 +120,7 @@ export default function HeroShowcase() {
             >
               Me contacter
             </button>
+            <SubmissionAccessCta />
           </div>
         </div>
 
