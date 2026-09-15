@@ -17,8 +17,10 @@ export default function TypewriterText({ text, className, speedMs = 15 }: Typewr
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     if (prefersReducedMotion) {
-      setVisibleCharacters(text.length)
-      return
+      const animationFrame = window.requestAnimationFrame(() => {
+        setVisibleCharacters(text.length)
+      })
+      return () => window.cancelAnimationFrame(animationFrame)
     }
 
     const node = containerRef.current

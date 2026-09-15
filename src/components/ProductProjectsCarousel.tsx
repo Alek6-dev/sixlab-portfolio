@@ -25,6 +25,7 @@ export default function ProductProjectsCarousel({ projects }: { projects: Projec
 
   const hasPagination = projects.length > visibleProjectCount
   const pageCount = hasPagination ? projects.length - visibleProjectCount + 1 : 1
+  const activeStartIndex = Math.min(startIndex, pageCount - 1)
   const cardBasis = `calc((100% - ${(visibleProjectCount - 1) * 1.5}rem) / ${visibleProjectCount})`
 
   useEffect(() => {
@@ -37,10 +38,6 @@ export default function ProductProjectsCarousel({ projects }: { projects: Projec
 
     return () => window.removeEventListener('resize', updateVisibleProjectCount)
   }, [])
-
-  useEffect(() => {
-    setStartIndex((current) => Math.min(current, pageCount - 1))
-  }, [pageCount])
 
   useEffect(() => {
     function updateSlideStep() {
@@ -62,11 +59,11 @@ export default function ProductProjectsCarousel({ projects }: { projects: Projec
   }, [projects.length, visibleProjectCount])
 
   function goToPrevious() {
-    setStartIndex((current) => (current - 1 + pageCount) % pageCount)
+    setStartIndex((current) => (Math.min(current, pageCount - 1) - 1 + pageCount) % pageCount)
   }
 
   function goToNext() {
-    setStartIndex((current) => (current + 1) % pageCount)
+    setStartIndex((current) => (Math.min(current, pageCount - 1) + 1) % pageCount)
   }
 
   function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
@@ -113,7 +110,7 @@ export default function ProductProjectsCarousel({ projects }: { projects: Projec
         <div
           ref={trackRef}
           className="flex touch-pan-y gap-6 transition-transform duration-500 ease-out"
-          style={{ transform: `translateX(-${startIndex * slideStepPx}px)` }}
+          style={{ transform: `translateX(-${activeStartIndex * slideStepPx}px)` }}
         >
           {projects.map((project) => (
             <div
@@ -145,9 +142,9 @@ export default function ProductProjectsCarousel({ projects }: { projects: Projec
                 type="button"
                 onClick={() => setStartIndex(index)}
                 aria-label={`Afficher la page ${index + 1} des projets`}
-                aria-current={index === startIndex ? 'true' : undefined}
+                aria-current={index === activeStartIndex ? 'true' : undefined}
                 className={`h-2 w-2 rounded-full transition-colors ${
-                  index === startIndex ? 'bg-brand-200' : 'bg-line-soft hover:bg-copy-faint'
+                  index === activeStartIndex ? 'bg-brand-200' : 'bg-line-soft hover:bg-copy-faint'
                 }`}
               />
             ))}

@@ -17,49 +17,65 @@ export const metadata: Metadata = {
 }
 
 export default async function SubmitProjectPage() {
+  const state = await getSubmissionPageState()
+
+  if (state.kind === 'unavailable') {
+    return <UnavailableState />
+  }
+
+  if (state.kind === 'closed') {
+    return <ClosedState />
+  }
+
+  return (
+    <main className="mx-auto w-full max-w-6xl px-6 py-12 sm:py-16 lg:py-20">
+      <Link
+        href="/"
+        className="inline-flex items-center gap-2 text-sm text-copy-muted transition-colors hover:text-copy"
+      >
+        <ArrowLeft size={16} />
+        Retour au portfolio
+      </Link>
+
+      <div className="mt-10">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-200">
+          Soumission de projet
+        </p>
+        <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-copy sm:text-5xl">
+          Les grandes lignes suffisent pour commencer.
+        </h1>
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-copy-muted">
+          Quelques choix, un récapitulatif, puis le moyen de vous recontacter si une discussion
+          peut être utile.
+        </p>
+      </div>
+
+      <SubmissionWizard
+        startToken={state.startToken}
+        scheduledEndAt={state.scheduledEndAt}
+      />
+    </main>
+  )
+}
+
+async function getSubmissionPageState() {
   try {
     const period = await getActivePeriod()
 
     if (!period) {
-      return <ClosedState />
+      return { kind: 'closed' as const }
     }
 
-    const startToken = createSubmissionStartToken({
-      periodId: period.id,
-      issuedAt: new Date().toISOString(),
-    })
-
-    return (
-      <main className="mx-auto w-full max-w-6xl px-6 py-12 sm:py-16 lg:py-20">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-copy-muted transition-colors hover:text-copy"
-        >
-          <ArrowLeft size={16} />
-          Retour au portfolio
-        </Link>
-
-        <div className="mt-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-200">
-            Soumission de projet
-          </p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-copy sm:text-5xl">
-            Les grandes lignes suffisent pour commencer.
-          </h1>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-copy-muted">
-            Quelques choix, un récapitulatif, puis le moyen de vous recontacter si une discussion
-            peut être utile.
-          </p>
-        </div>
-
-        <SubmissionWizard
-          startToken={startToken}
-          scheduledEndAt={period.scheduledEndAt}
-        />
-      </main>
-    )
+    return {
+      kind: 'open' as const,
+      scheduledEndAt: period.scheduledEndAt,
+      startToken: createSubmissionStartToken({
+        periodId: period.id,
+        issuedAt: new Date().toISOString(),
+      }),
+    }
   } catch {
-    return <UnavailableState />
+    return { kind: 'unavailable' as const }
   }
 }
 

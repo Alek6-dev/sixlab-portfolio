@@ -52,21 +52,33 @@ const showcaseItems: ShowcaseItem[] = [
 
 export default function HeroShowcase() {
   const [activeIndex, setActiveIndex] = useState(1)
-  const userPausedUntil = useRef(0)
+  const isAutoRotationPaused = useRef(false)
+  const pauseTimeout = useRef<number | null>(null)
 
   useEffect(() => {
     const interval = window.setInterval(() => {
-      if (Date.now() < userPausedUntil.current) return
+      if (isAutoRotationPaused.current) return
       setActiveIndex((index) => (index + 1) % showcaseItems.length)
     }, 5200)
 
-    return () => window.clearInterval(interval)
+    return () => {
+      window.clearInterval(interval)
+      if (pauseTimeout.current !== null) {
+        window.clearTimeout(pauseTimeout.current)
+      }
+    }
   }, [])
 
   const activeItem = showcaseItems[activeIndex]
 
   function selectItem(index: number) {
-    userPausedUntil.current = Date.now() + 9000
+    isAutoRotationPaused.current = true
+    if (pauseTimeout.current !== null) {
+      window.clearTimeout(pauseTimeout.current)
+    }
+    pauseTimeout.current = window.setTimeout(() => {
+      isAutoRotationPaused.current = false
+    }, 9000)
     setActiveIndex(index)
   }
 

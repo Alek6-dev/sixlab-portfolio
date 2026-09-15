@@ -114,10 +114,6 @@ function AutomationFlow({ automation }: { automation: Automation }) {
   const nodeStates = automation.flow.nodes.map((_, index) => getNodeState(index, elapsedMs))
 
   useEffect(() => {
-    setElapsedMs(0)
-  }, [automation.slug])
-
-  useEffect(() => {
     const flowElement = flowRef.current
 
     if (!flowElement) return
