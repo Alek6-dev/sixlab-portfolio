@@ -2,11 +2,21 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { getNeonAuth } from '@/lib/auth/server'
 import {
+  getAdminHostRedirect,
   isAdminRootRequest,
   shouldProcessNeonAuthRequest,
 } from '@/lib/auth/proxy-routing'
 
 export function proxy(request: NextRequest) {
+  const adminHostRedirect = getAdminHostRedirect(
+    request.headers.get('host'),
+    request.nextUrl
+  )
+
+  if (adminHostRedirect) {
+    return NextResponse.redirect(adminHostRedirect)
+  }
+
   if (shouldProcessNeonAuthRequest(request.nextUrl)) {
     return getNeonAuth().middleware({ loginUrl: '/auth/sign-in' })(request)
   }
