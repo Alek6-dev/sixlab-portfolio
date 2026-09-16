@@ -4,13 +4,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { openContactChat } from '@/components/ContactChatLauncher'
+import SubmissionNavLink from '@/components/SubmissionNavLink'
 
 export default function Navbar() {
   const pathname = usePathname()
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-canvas/90 backdrop-blur-md">
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-6">
+      <nav className="relative mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-6">
         <Link
           href="/"
           className="flex items-center transition-opacity hover:opacity-80"
@@ -25,6 +26,8 @@ export default function Navbar() {
             className="h-auto w-[112px] sm:w-[132px]"
           />
         </Link>
+
+        <SubmissionNavLink />
 
         <div className="flex items-center gap-4 sm:gap-8">
           <Link

@@ -2,9 +2,8 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { ArrowUpRight } from 'lucide-react'
 
-export default function SubmissionAccessCta() {
+export default function SubmissionNavLink() {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
@@ -26,10 +25,9 @@ export default function SubmissionAccessCta() {
   return (
     <Link
       href="/soumettre-un-projet"
-      className="inline-flex items-center gap-2 rounded-lg border border-line bg-panel px-5 py-3 text-sm font-semibold text-copy transition-colors hover:border-brand-300 hover:text-brand-100 sm:gap-3 sm:px-6"
+      className="submission-nav-pulse absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-medium hover:[animation-play-state:paused] hover:!text-copy focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-200/60 sm:text-sm"
     >
       Soumettre un projet
-      <ArrowUpRight size={16} strokeWidth={1.8} />
     </Link>
   )
 }
