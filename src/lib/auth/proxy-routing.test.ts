@@ -1,5 +1,18 @@
 import { describe, expect, it } from 'vitest'
-import { shouldProcessNeonAuthRequest } from '@/lib/auth/proxy-routing'
+import {
+  isAdminRootRequest,
+  shouldProcessNeonAuthRequest,
+} from '@/lib/auth/proxy-routing'
+
+describe('isAdminRootRequest', () => {
+  it('redirige uniquement la racine du sous-domaine administrateur', () => {
+    expect(isAdminRootRequest('admin.sixlab.fr', '/')).toBe(true)
+    expect(isAdminRootRequest('admin.sixlab.fr', '/admin')).toBe(false)
+    expect(isAdminRootRequest('www.sixlab.fr', '/')).toBe(false)
+    expect(isAdminRootRequest('localhost:3100', '/')).toBe(false)
+    expect(isAdminRootRequest(null, '/')).toBe(false)
+  })
+})
 
 describe('shouldProcessNeonAuthRequest', () => {
   it('laisse les pages publiques accessibles', () => {
