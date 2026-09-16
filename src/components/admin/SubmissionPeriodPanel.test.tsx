@@ -25,6 +25,12 @@ describe('SubmissionPeriodPanel', () => {
     expect(
       screen.getByRole('button', { name: 'Ouvrir les dépôts' })
     ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Ouvrir le calendrier' })
+    ).toBeInTheDocument()
+    expect(screen.getByLabelText('Date de fin facultative')).not.toHaveAttribute(
+      'readonly'
+    )
   })
 
   it('demande une confirmation avant une fermeture définitive', async () => {

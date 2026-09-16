@@ -1,7 +1,7 @@
 'use client'
 
-import { useActionState, useState } from 'react'
-import { CalendarClock, LoaderCircle, LockKeyhole } from 'lucide-react'
+import { useActionState, useRef, useState } from 'react'
+import { CalendarClock, CalendarDays, LoaderCircle, LockKeyhole } from 'lucide-react'
 import {
   closePeriodAction,
   openPeriodAction,
@@ -196,6 +196,16 @@ function DateField({
   minimumEndDate: string
   defaultValue?: string
 }) {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  function openCalendar() {
+    const input = inputRef.current
+    if (!input) return
+
+    input.focus()
+    input.showPicker?.()
+  }
+
   return (
     <div className="mt-5 max-w-sm">
       <label
@@ -204,14 +214,25 @@ function DateField({
       >
         Date de fin facultative
       </label>
-      <input
-        id="scheduled-end-date"
-        name="scheduledEndDate"
-        type="date"
-        min={minimumEndDate}
-        defaultValue={defaultValue}
-        className="mt-2 w-full rounded-lg border border-line bg-canvas px-4 py-3 text-sm text-copy outline-none transition-colors focus:border-brand-300"
-      />
+      <div className="relative mt-2">
+        <input
+          ref={inputRef}
+          id="scheduled-end-date"
+          name="scheduledEndDate"
+          type="date"
+          min={minimumEndDate}
+          defaultValue={defaultValue}
+          className="w-full rounded-lg border border-line bg-canvas px-4 py-3 pr-12 text-sm text-copy outline-none transition-colors focus:border-brand-300"
+        />
+        <button
+          type="button"
+          onClick={openCalendar}
+          aria-label="Ouvrir le calendrier"
+          className="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-copy-muted transition-colors hover:text-brand-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-200/60"
+        >
+          <CalendarDays className="h-4 w-4" aria-hidden="true" />
+        </button>
+      </div>
     </div>
   )
 }

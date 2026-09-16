@@ -79,5 +79,35 @@ describe('SubmissionWizard', () => {
     expect(
       await screen.findByRole('heading', { name: 'Votre fiche a bien été reçue.' })
     ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'Déposer un autre projet' })
+    ).toHaveAttribute('href', '/soumettre-un-projet')
+    expect(
+      screen.queryByRole('button', { name: 'Déposer un autre projet' })
+    ).not.toBeInTheDocument()
+  })
+
+  it('affiche directement le double curseur de budget et active la fourchette à la saisie', async () => {
+    const user = userEvent.setup()
+    render(<SubmissionWizard startToken="signed-token-with-more-than-thirty-two-characters" scheduledEndAt={null} />)
+
+    await user.click(screen.getByRole('button', { name: 'Site web' }))
+    await user.click(screen.getByRole('button', { name: 'Continuer' }))
+    await user.click(screen.getByRole('button', { name: 'Tech & numérique' }))
+    await user.click(screen.getByRole('button', { name: 'Continuer' }))
+    await user.click(screen.getByRole('button', { name: 'Idée' }))
+    await user.click(screen.getByRole('button', { name: 'Continuer' }))
+    await user.click(screen.getByRole('button', { name: 'Pas de date prévue' }))
+    await user.click(screen.getByRole('button', { name: 'Sans échéance' }))
+    await user.click(screen.getByRole('button', { name: 'Continuer' }))
+
+    expect(screen.getByRole('slider', { name: 'Budget minimum' })).toBeInTheDocument()
+    expect(screen.getByRole('slider', { name: 'Budget maximum' })).toBeInTheDocument()
+
+    await user.clear(screen.getByRole('spinbutton', { name: 'Minimum' }))
+    await user.type(screen.getByRole('spinbutton', { name: 'Minimum' }), '5000')
+    await user.click(screen.getByRole('button', { name: 'Continuer' }))
+
+    expect(screen.getByText('5 000 € – 50 000 €')).toBeInTheDocument()
   })
 })

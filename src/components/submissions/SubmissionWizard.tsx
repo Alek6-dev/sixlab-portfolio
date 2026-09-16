@@ -115,7 +115,7 @@ export default function SubmissionWizard({
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
-  const [idempotencyKey, setIdempotencyKey] = useState(() => crypto.randomUUID())
+  const [idempotencyKey] = useState(() => crypto.randomUUID())
   const headingRef = useRef<HTMLHeadingElement>(null)
 
   useEffect(() => {
@@ -230,15 +230,6 @@ export default function SubmissionWizard({
     }
   }
 
-  function reset() {
-    setAnswers(initialState)
-    setIdempotencyKey(crypto.randomUUID())
-    setStep(0)
-    setError('')
-    setFieldErrors({})
-    setIsSubmitted(false)
-  }
-
   if (isSubmitted) {
     return (
       <section className="mt-12 rounded-lg border border-status-live-border bg-status-live-bg/50 p-7 sm:p-10">
@@ -254,14 +245,13 @@ export default function SubmissionWizard({
           Elle est maintenant disponible dans l’espace privé d’Alexis. Ce dépôt ne constitue pas
           une promesse de réponse, de devis ou de mission.
         </p>
-        <button
-          type="button"
-          onClick={reset}
+        <a
+          href="/soumettre-un-projet"
           className="mt-8 inline-flex items-center gap-2 rounded-lg border border-brand-200/60 px-5 py-3 text-sm font-semibold text-brand-100 transition-colors hover:border-brand-100"
         >
           <RefreshCcw size={16} />
           Déposer un autre projet
-        </button>
+        </a>
       </section>
     )
   }
@@ -406,8 +396,18 @@ export default function SubmissionWizard({
 
         {step === 4 && (
           <StepSection headingRef={headingRef} title="Quelle enveloppe envisagez-vous ?">
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {budgetModes.map((option) => (
+            <BudgetRange
+              answers={answers}
+              selected={answers.budgetMode === 'range'}
+              update={update}
+            />
+
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {budgetModes
+                .filter((option) =>
+                  ['below-minimum', 'above-maximum'].includes(option.value)
+                )
+                .map((option) => (
                 <ChoiceCard
                   key={option.value}
                   label={option.label}
@@ -415,12 +415,16 @@ export default function SubmissionWizard({
                   onClick={() => update('budgetMode', option.value)}
                   compact
                 />
-              ))}
+                ))}
             </div>
-
-            {answers.budgetMode === 'range' && (
-              <BudgetRange answers={answers} update={update} />
-            )}
+            <div className="mt-3 sm:mx-auto sm:max-w-[calc(50%-0.375rem)]">
+              <ChoiceCard
+                label="Pas de budget défini"
+                selected={answers.budgetMode === 'undefined'}
+                onClick={() => update('budgetMode', 'undefined')}
+                compact
+              />
+            </div>
           </StepSection>
         )}
 
@@ -538,9 +542,11 @@ function ChoiceCard({
 
 function BudgetRange({
   answers,
+  selected,
   update,
 }: {
   answers: WizardState
+  selected: boolean
   update: <K extends keyof WizardState>(key: K, value: WizardState[K]) => void
 }) {
   const sliderMin = Math.min(Math.max(answers.budgetMin, 500), 50_000)
@@ -548,8 +554,18 @@ function BudgetRange({
   const left = ((sliderMin - 500) / 49_500) * 100
   const right = 100 - ((sliderMax - 500) / 49_500) * 100
 
+  function updateRange(key: 'budgetMin' | 'budgetMax', value: number) {
+    update('budgetMode', 'range')
+    update(key, value)
+  }
+
   return (
-    <div className="mt-7 rounded-lg border border-line bg-canvas/35 p-5 sm:p-7">
+    <div
+      className={`rounded-lg border bg-canvas/35 p-5 transition-colors sm:p-7 ${
+        selected ? 'border-brand-300' : 'border-line'
+      }`}
+    >
+      <p className="text-sm font-semibold text-copy">Fourchette définie</p>
       <div className="relative h-10">
         <div className="absolute left-0 right-0 top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-line" />
         <div
@@ -564,7 +580,7 @@ function BudgetRange({
           step="500"
           value={sliderMin}
           onChange={(event) =>
-            update('budgetMin', Math.min(Number(event.target.value), answers.budgetMax))
+            updateRange('budgetMin', Math.min(Number(event.target.value), answers.budgetMax))
           }
           className="submission-range absolute inset-0 h-10 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-200/60"
         />
@@ -576,7 +592,7 @@ function BudgetRange({
           step="500"
           value={sliderMax}
           onChange={(event) =>
-            update('budgetMax', Math.max(Number(event.target.value), answers.budgetMin))
+            updateRange('budgetMax', Math.max(Number(event.target.value), answers.budgetMin))
           }
           className="submission-range absolute inset-0 h-10 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-200/60"
         />
@@ -590,7 +606,7 @@ function BudgetRange({
             min="500"
             step="500"
             value={answers.budgetMin}
-            onChange={(event) => update('budgetMin', Number(event.target.value))}
+            onChange={(event) => updateRange('budgetMin', Number(event.target.value))}
             className="mt-2 w-full rounded-lg border border-line bg-panel px-4 py-3 text-copy outline-none focus:border-brand-300 focus:ring-2 focus:ring-brand-200/20"
           />
         </label>
@@ -601,7 +617,7 @@ function BudgetRange({
             min="500"
             step="500"
             value={answers.budgetMax}
-            onChange={(event) => update('budgetMax', Number(event.target.value))}
+            onChange={(event) => updateRange('budgetMax', Number(event.target.value))}
             className="mt-2 w-full rounded-lg border border-line bg-panel px-4 py-3 text-copy outline-none focus:border-brand-300 focus:ring-2 focus:ring-brand-200/20"
           />
         </label>
