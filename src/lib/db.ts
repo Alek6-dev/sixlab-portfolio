@@ -1,3 +1,4 @@
+import 'server-only'
 import { neon } from '@neondatabase/serverless'
 
 let cachedSql: ReturnType<typeof neon> | null = null

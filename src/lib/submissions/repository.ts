@@ -1,3 +1,4 @@
+import 'server-only'
 import { getSql } from '@/lib/db'
 import type { ProjectAnswers } from '@/lib/submissions/domain'
 
@@ -139,8 +140,15 @@ export async function openSubmissionPeriod(scheduledEndDate?: string) {
          WHEN ${endDate}::text IS NULL THEN NULL
          ELSE (${endDate}::date + time '23:59:59') AT TIME ZONE 'Europe/Paris'
        END
-       WHERE ${endDate}::text IS NULL
-          OR ((${endDate}::date + time '23:59:59') AT TIME ZONE 'Europe/Paris') > now()
+       WHERE (
+         ${endDate}::text IS NULL
+         OR ((${endDate}::date + time '23:59:59') AT TIME ZONE 'Europe/Paris') > now()
+       )
+       AND NOT EXISTS (
+         SELECT 1
+         FROM submission_periods
+         WHERE closed_at IS NULL
+       )
        RETURNING id`,
   ])
   const inserted = asRows<{ id: string }>(transactionResults[2])
